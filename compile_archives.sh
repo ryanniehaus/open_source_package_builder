@@ -48,7 +48,7 @@ do
 	archiveSuccess=0
 	
 	#unzip archive
-	tar axv "$archiveFileName"
+	tar axvf "$archiveFileName"
 	#compile archive
 	
 	pushd > /dev/null
@@ -69,6 +69,6 @@ git checkout master
 git add archives_to_process
 git add archives_successfully_processed
 git status
-git diff archives_to_process
-#git commit -m "updating lists"
+git commit -m "updating lists"
+git push
 
