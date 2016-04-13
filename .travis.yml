@@ -6,7 +6,7 @@ install: true
 
 #before_script:
 
-script: bundle exec ./compile_archives.sh
+script: ./compile_archives.sh
 
 #after_success:
 
