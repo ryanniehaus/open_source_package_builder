@@ -2,7 +2,7 @@
 
 wget https://github.com/ryanniehaus/heroku-bash-buildpack/raw/master/bin/dataURLFromCloudinary.py
 chmod u+rx dataURLFromCloudinary.py
-pip install cloudinary
+sudo pip install cloudinary
 
 eval "$(ssh-agent -s)"
 
