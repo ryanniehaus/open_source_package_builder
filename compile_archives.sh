@@ -69,5 +69,6 @@ git checkout master
 git add archives_to_process
 git add archives_successfully_processed
 git status
+git diff archives_to_process
 #git commit -m "updating lists"
 
