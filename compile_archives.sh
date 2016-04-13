@@ -63,9 +63,11 @@ do
 done < archives_to_process
 mv archives_that_failed archives_to_process
 
-
+git config --get remote.origin.url
+git remote show origin
 git checkout master
 git add archives_to_process
-git add archives_to_process
-git commit -m "updating lists"
+git add archives_successfully_processed
+git status
+#git commit -m "updating lists"
 
