@@ -10,6 +10,7 @@ do
 	wget "$archiveLocation"
 done < archives_to_process
 
+
 git add archives_to_process
 git commit -m "updating lists"
 
