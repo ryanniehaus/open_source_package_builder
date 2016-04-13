@@ -48,7 +48,7 @@ do
 	archiveSuccess=0
 	
 	#unzip archive
-	tar axvf "$archiveFileName"
+	tar axf "$archiveFileName"
 	#compile archive
 	
 	pushd > /dev/null
