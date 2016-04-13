@@ -37,11 +37,35 @@ do
   projectName=$(echo "$archiveLine" | cut -f 1 -d ",")
   projectVersion=$(echo "$archiveLine" | cut -f 2 -d ",")
   archiveLocation=$(echo "$archiveLine" | cut -f 3 -d ",")
+  archiveFileName=$(echo "$archiveLocation" | sed 's|^.\+/\([^/]\+\)$|\1|')
 	echo PROCESSING "$projectName" VERSION "$projectVersion"
+	
+	mkdir tempCompileDir
+	pushd tempCompileDir > /dev/null
+	
 	wget "$archiveLocation"
+	
+	archiveSuccess=0
+	
+	#unzip archive
+	tar axv "$archiveFileName"
+	#compile archive
+	
+	pushd > /dev/null
+	rm -rf tempCompileDir
+	
+	if [ "$archiveSuccess" == "1" ]
+	then
+	  echo "$archiveLine" >> archives_successfully_processed
+	else
+	  echo "$archiveLine" >> archives_that_failed
+	fi
 done < archives_to_process
+mv archives_that_failed archives_to_process
+
 
 git checkout master
+git add archives_to_process
 git add archives_to_process
 git commit -m "updating lists"
 
