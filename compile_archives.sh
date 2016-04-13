@@ -4,6 +4,7 @@ wget https://github.com/ryanniehaus/heroku-bash-buildpack/raw/master/bin/dataURL
 chmod u+rx dataURLFromCloudinary.py
 
 sudo -H pip install --upgrade pip
+sudo -H pip install --upgrade ndg-httpsclient
 sudo -H pip install cloudinary
 
 eval "$(ssh-agent -s)"
