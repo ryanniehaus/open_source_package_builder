@@ -1,3 +1,5 @@
+language: c
+
 #before_install:
 
 install: true
@@ -12,10 +14,11 @@ script: bundle exec ./compile_archives.sh
 
 #before_deploy:
 
-deploy:
-	skip_cleanup: true
+#deploy:
+#  skip_cleanup: true
 
 #after_deploy:
 
 #after_script:
+
 
