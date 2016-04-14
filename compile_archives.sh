@@ -20,6 +20,8 @@ wget --no-cache $(./dataURLFromCloudinary.py id_rsa) &> /dev/null
 echo downloading $(./dataURLFromCloudinary.py id_rsa.pub)
 wget --no-cache $(./dataURLFromCloudinary.py id_rsa.pub) &> /dev/null
 
+chmod og-rwx,u+rw id_rsa*
+
 echo "#!/usr/bin/env expect" > `pwd`"/ps.sh"
 echo "spawn ssh-add id_rsa" >> `pwd`"/ps.sh"
 echo "expect \"Enter passphrase for id_rsa:\"" >> `pwd`"/ps.sh"
