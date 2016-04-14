@@ -52,6 +52,8 @@ do
 	#unzip archive
 	tar -axf "$archiveFileName"
 	#compile archive
+	TEMP_COMPILE_DIR=`pwd`
+	pushd "$projectName" > /dev/null
 	libtoolize
 	aclocal
 	autoconf
@@ -59,8 +61,9 @@ do
 	automake --add-missing
 	./configure
 	make
+	popd > /dev/null
 	
-	pushd > /dev/null
+	popd > /dev/null
 	rm -rf tempCompileDir
 	
 	if [ "$archiveSuccess" == "1" ]
