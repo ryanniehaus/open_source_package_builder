@@ -54,7 +54,7 @@ do
 		#compile archive
 		TEMP_COMPILE_DIR=`pwd`
 	
-	  tempFolder=$(ls "$projectName"-* | grep -vE "[.]tar")
+	  tempFolder=$(ls | grep -E "$projectName-.+" | grep -vE "[.]tar")
 	  echo "working folder: $tempFolder"
 		pushd "$tempFolder" > /dev/null
 			libtoolize
