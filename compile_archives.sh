@@ -53,7 +53,7 @@ do
 	tar -axf "$archiveFileName"
 	#compile archive
 	TEMP_COMPILE_DIR=`pwd`
-	pushd "$projectName" > /dev/null
+	pushd $(ls "$projectName"-* | grep -vE "[.]tar") > /dev/null
 	libtoolize
 	aclocal
 	autoconf
