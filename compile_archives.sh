@@ -52,6 +52,13 @@ do
 	#unzip archive
 	tar -axf "$archiveFileName"
 	#compile archive
+	libtoolize
+	aclocal
+	autoconf
+	autoheader
+	automake --add-missing
+	./configure
+	make
 	
 	pushd > /dev/null
 	rm -rf tempCompileDir
