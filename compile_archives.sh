@@ -45,23 +45,26 @@ do
 	mkdir tempCompileDir
 	pushd tempCompileDir > /dev/null
 	
-	wget "$archiveLocation"
+		wget "$archiveLocation"
 	
-	archiveSuccess=0
+		archiveSuccess=0
 	
-	#unzip archive
-	tar -axf "$archiveFileName"
-	#compile archive
-	TEMP_COMPILE_DIR=`pwd`
-	pushd $(ls "$projectName"-* | grep -vE "[.]tar") > /dev/null
-	libtoolize
-	aclocal
-	autoconf
-	autoheader
-	automake --add-missing
-	./configure
-	make
-	popd > /dev/null
+		#unzip archive
+		tar -axf "$archiveFileName"
+		#compile archive
+		TEMP_COMPILE_DIR=`pwd`
+	
+	  tempFolder=$(ls "$projectName"-* | grep -vE "[.]tar")
+	  echo "working folder: $tempFolder"
+		pushd "$tempFolder" > /dev/null
+			libtoolize
+			aclocal
+			autoconf
+			autoheader
+			automake --add-missing
+			./configure
+			make
+		popd > /dev/null
 	
 	popd > /dev/null
 	rm -rf tempCompileDir
