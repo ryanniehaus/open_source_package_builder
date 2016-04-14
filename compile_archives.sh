@@ -62,6 +62,7 @@ do
 			autoconf
 			autoheader
 			automake --add-missing
+			autoreconf
 			./configure
 			make
 		popd > /dev/null
