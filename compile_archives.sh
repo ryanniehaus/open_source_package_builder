@@ -57,12 +57,13 @@ do
 	  tempFolder=$(ls | grep -E "$projectName-.+" | grep -vE "[.]tar")
 	  echo "working folder: $tempFolder"
 		pushd "$tempFolder" > /dev/null
-			libtoolize
+		  gettextize
+#			libtoolize
 			aclocal
 			autoconf
 			autoheader
 			automake --add-missing
-			autoreconf
+			autoreconf -f -i
 			touch config.rpath
 			if [ -f ./autogen.sh ]
 			then
