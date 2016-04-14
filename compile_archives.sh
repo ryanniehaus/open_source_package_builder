@@ -50,7 +50,7 @@ do
 	archiveSuccess=0
 	
 	#unzip archive
-	tar -axf --totals "$archiveFileName"
+	tar -axf "$archiveFileName"
 	#compile archive
 	
 	pushd > /dev/null
@@ -66,6 +66,7 @@ done < archives_to_process
 mv archives_that_failed archives_to_process
 
 git config --get remote.origin.url
+git remote set-url origin git@github.com:ryanniehaus/open_source_package_builder.git
 git remote show origin
 git checkout master
 git add archives_to_process
