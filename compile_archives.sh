@@ -63,6 +63,11 @@ do
 			autoheader
 			automake --add-missing
 			autoreconf
+			touch config.rpath
+			if [ -f ./autogen.sh ]
+			then
+			  ./autogen.sh
+			fi
 			./configure
 			make
 		popd > /dev/null
