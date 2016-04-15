@@ -57,9 +57,9 @@ do
 	  tempFolder=$(ls | grep -E "$projectName-.+" | grep -vE "[.]tar")
 	  echo "working folder: $tempFolder"
 		pushd "$tempFolder" > /dev/null
-		  CFLAGS="-fpermissive -Wno-error"
-		  CXXFLAGS="$CFLAGS"
-		  CPPFLAGS="$CFLAGS"
+		  CFLAGS=
+		  CXXFLAGS="-fpermissive -Wno-error"
+		  CPPFLAGS="$CXXFLAGS"
 		  if [ -f configure.ac -o -f Makefile.am -o -f configure.in -o -f Makefile.in -o -f configure ]
 		  then
 		    autotools_source=1
