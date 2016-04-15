@@ -57,7 +57,7 @@ do
 	  tempFolder=$(ls | grep -E "$projectName-.+" | grep -vE "[.]tar")
 	  echo "working folder: $tempFolder"
 		pushd "$tempFolder" > /dev/null
-		  if [ -f configure.ac -a -f Makefile.am ]
+		  if [ -f configure.ac -o -f Makefile.am -o -f configure.in -o -f Makefile.in -o -f configure ]
 		  then
 		    autotools_source=1
 		    echo "DETECTED AUTOTOOLS"
