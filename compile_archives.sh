@@ -107,6 +107,9 @@ do
 			then
 			  echo MAKE FAILED
 				cat autobuild_make1.2.log
+				echo CLEANING UP FROM LAST BUILD
+				make -s clean > autobuild_makeclean.1.log 2> autobuild_makeclean.2.log
+				cat autobuild_makeclean.2.log
 			  if [ "$autotools_source" == "1" ]
 			  then
 			  	echo TRYING AUTORECONF
