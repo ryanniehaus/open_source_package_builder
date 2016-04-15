@@ -57,7 +57,6 @@ do
 	  tempFolder=$(ls | grep -E "$projectName-.+" | grep -vE "[.]tar")
 	  echo "working folder: $tempFolder"
 		pushd "$tempFolder" > /dev/null
-		  ls
 		  if [ -f configure.ac -a -f Makefile.am ]
 		  then
 		    autotools_source=1
@@ -69,6 +68,8 @@ do
 		    	echo "DETECTED CMAKE"
 		    else
 		    	echo "UNKOWN SOURCE TYPE, ASSUMING SIMPLY MAKE"
+		    	echo "Directory listing:"
+		    	ls -la
 		    fi
 		  fi
 		  
