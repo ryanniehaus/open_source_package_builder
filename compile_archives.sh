@@ -60,6 +60,7 @@ do
 		  CFLAGS=
 		  CXXFLAGS="-fpermissive -Wno-error"
 		  CPPFLAGS="$CXXFLAGS"
+		  export CFLAGS CXXFLAGS CPPFLAGS
 		  if [ -f configure.ac -o -f Makefile.am -o -f configure.in -o -f Makefile.in -o -f configure ]
 		  then
 		    autotools_source=1
@@ -78,7 +79,8 @@ do
 		  
 		  if [ "$autotools_source" == "1" ]
 		  then
-				./configure CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CPPFLAGS" > autobuild_configure1.1.log 2> autobuild_configure1.2.log
+		    ./configure --help
+				./configure > autobuild_configure1.1.log 2> autobuild_configure1.2.log
 				tempRetval=$?
 				if [ ! "$tempRetval" == "0" ]
 				then
