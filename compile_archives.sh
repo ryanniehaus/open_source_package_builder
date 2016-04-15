@@ -73,30 +73,64 @@ do
 		  
 		  if [ "$autotools_source" == "1" ]
 		  then
-				./configure
+				./configure &> autobuild_configure1.log
+				tempRetval=$?
+				if [ ! "$tempRetval" == "0" ]
+				then
+				  echo CONFIGURE FAILED 
+				else
+					echo SUCCESS ON CONFIGURE
+				fi
 		  fi
 		  if [ "$cmake_source" == "1" ]
 		  then
-				ccmake .
+				ccmake . &> autobuild_ccmake.log
+				tempRetval=$?
+				if [ ! "$tempRetval" == "0" ]
+				then
+				  echo CCMAKE FAILED 
+				else
+					echo SUCCESS ON CCMAKE
+				fi
 		  fi
-			make
-			makeRetval=$?
-			
-			if [ ! "$makeRetval" == "0" ]
+		  
+			make &> autobuild_make1.log
+			tempRetval=$?
+			if [ ! "$tempRetval" == "0" ]
 			then
 			  echo MAKE FAILED
 			  if [ "$autotools_source" == "1" ]
 			  then
 			  	echo TRYING AUTORECONF
-			  	autoreconf -i -f
-			  	./configure
-			  	make
-					makeRetval=$?
-					if [ ! "$makeRetval" == "0" ]
+			  	autoreconf -i -f &> autobuild_autoreconf.log
+					tempRetval=$?
+					if [ ! "$tempRetval" == "0" ]
+					then
+					  echo AUTORECONF FAILED 
+					else
+						echo SUCCESS ON AUTORECONF
+					fi
+					
+			  	./configure &> autobuild_configure2.log
+					tempRetval=$?
+					if [ ! "$tempRetval" == "0" ]
+					then
+					  echo CONFIGURE STILL FAILED AFTER AUTORECONF
+					else
+						echo SUCCESS ON SECOND CONFIGURE
+					fi
+					
+			  	make &> autobuild_make1.log
+					tempRetval=$?
+					if [ ! "$tempRetval" == "0" ]
 					then
 					  echo MAKE STILL FAILED AFTER AUTORECONF
+					else
+						echo SUCCESS ON SECOND MAKE
 					fi
 			  fi
+			else
+				echo SUCCESS ON FIRST MAKE
 			fi
 		popd > /dev/null
 	
