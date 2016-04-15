@@ -78,7 +78,7 @@ do
 		  
 		  if [ "$autotools_source" == "1" ]
 		  then
-				./configure > autobuild_configure1.1.log 2> autobuild_configure1.2.log
+				./configure CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CPPFLAGS" > autobuild_configure1.1.log 2> autobuild_configure1.2.log
 				tempRetval=$?
 				if [ ! "$tempRetval" == "0" ]
 				then
@@ -101,7 +101,7 @@ do
 				fi
 		  fi
 		  
-			make CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CPPFLAGS" > autobuild_make1.1.log 2> autobuild_make1.2.log
+			make > autobuild_make1.1.log 2> autobuild_make1.2.log
 			tempRetval=$?
 			if [ ! "$tempRetval" == "0" ]
 			then
@@ -123,7 +123,7 @@ do
 						echo SUCCESS ON AUTORECONF
 					fi
 					
-			  	./configure > autobuild_configure2.1.log 2> autobuild_configure2.2.log
+			  	./configure CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CPPFLAGS" > autobuild_configure2.1.log 2> autobuild_configure2.2.log
 					tempRetval=$?
 					if [ ! "$tempRetval" == "0" ]
 					then
@@ -133,7 +133,7 @@ do
 						echo SUCCESS ON SECOND CONFIGURE
 					fi
 					
-			  	make CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CPPFLAGS" > autobuild_make2.1.log 2> autobuild_make2.2.log
+			  	make > autobuild_make2.1.log 2> autobuild_make2.2.log
 					tempRetval=$?
 					if [ ! "$tempRetval" == "0" ]
 					then
