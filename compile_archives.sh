@@ -79,7 +79,7 @@ do
 		  
 		  if [ "$autotools_source" == "1" ]
 		  then
-		    ./configure --help
+		    #./configure --help
 				./configure > autobuild_configure1.1.log 2> autobuild_configure1.2.log
 				tempRetval=$?
 				if [ ! "$tempRetval" == "0" ]
