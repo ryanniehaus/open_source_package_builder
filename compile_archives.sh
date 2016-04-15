@@ -75,58 +75,64 @@ do
 		  
 		  if [ "$autotools_source" == "1" ]
 		  then
-				./configure &> autobuild_configure1.log
+				./configure > autobuild_configure1.1.log 2> autobuild_configure1.2.log
 				tempRetval=$?
 				if [ ! "$tempRetval" == "0" ]
 				then
-				  echo CONFIGURE FAILED 
+				  echo CONFIGURE FAILED
+					cat autobuild_configure1.2.log
 				else
 					echo SUCCESS ON CONFIGURE
 				fi
 		  fi
 		  if [ "$cmake_source" == "1" ]
 		  then
-				ccmake . &> autobuild_ccmake.log
+				ccmake . > autobuild_ccmake.1.log 2> autobuild_ccmake.2.log
 				tempRetval=$?
 				if [ ! "$tempRetval" == "0" ]
 				then
-				  echo CCMAKE FAILED 
+				  echo CCMAKE FAILED
+					cat autobuild_ccmake.2.log
 				else
 					echo SUCCESS ON CCMAKE
 				fi
 		  fi
 		  
-			make &> autobuild_make1.log
+			make > autobuild_make1.1.log 2> autobuild_make1.2.log
 			tempRetval=$?
 			if [ ! "$tempRetval" == "0" ]
 			then
 			  echo MAKE FAILED
+				cat autobuild_make1.2.log
 			  if [ "$autotools_source" == "1" ]
 			  then
 			  	echo TRYING AUTORECONF
-			  	autoreconf -i -f &> autobuild_autoreconf.log
+			  	autoreconf -i -f > autobuild_autoreconf.1.log 2> autobuild_autoreconf.2.log
 					tempRetval=$?
 					if [ ! "$tempRetval" == "0" ]
 					then
-					  echo AUTORECONF FAILED 
+					  echo AUTORECONF FAILED
+					  cat autobuild_autoreconf.2.log
 					else
 						echo SUCCESS ON AUTORECONF
 					fi
 					
-			  	./configure &> autobuild_configure2.log
+			  	./configure > autobuild_configure2.1.log 2> autobuild_configure2.2.log
 					tempRetval=$?
 					if [ ! "$tempRetval" == "0" ]
 					then
 					  echo CONFIGURE STILL FAILED AFTER AUTORECONF
+					  cat autobuild_configure2.2.log
 					else
 						echo SUCCESS ON SECOND CONFIGURE
 					fi
 					
-			  	make &> autobuild_make1.log
+			  	make > autobuild_make2.1.log 2> autobuild_make2.2.log
 					tempRetval=$?
 					if [ ! "$tempRetval" == "0" ]
 					then
 					  echo MAKE STILL FAILED AFTER AUTORECONF
+					  cat autobuild_make2.2.log
 					else
 						echo SUCCESS ON SECOND MAKE
 					fi
