@@ -57,9 +57,9 @@ do
 	  tempFolder=$(ls | grep -E "$projectName-.+" | grep -vE "[.]tar")
 	  echo "working folder: $tempFolder"
 		pushd "$tempFolder" > /dev/null
-		  CFLAGS=-fpermissive -Wno-error
-		  CXXFLAGS=$CFLAGS
-		  CPPFLAGS=$CFLAGS
+		  CFLAGS="-fpermissive -Wno-error"
+		  CXXFLAGS="$CFLAGS"
+		  CPPFLAGS="$CFLAGS"
 		  if [ -f configure.ac -o -f Makefile.am -o -f configure.in -o -f Makefile.in -o -f configure ]
 		  then
 		    autotools_source=1
@@ -101,7 +101,7 @@ do
 				fi
 		  fi
 		  
-			make > autobuild_make1.1.log 2> autobuild_make1.2.log
+			make CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CPPFLAGS" > autobuild_make1.1.log 2> autobuild_make1.2.log
 			tempRetval=$?
 			if [ ! "$tempRetval" == "0" ]
 			then
@@ -130,7 +130,7 @@ do
 						echo SUCCESS ON SECOND CONFIGURE
 					fi
 					
-			  	make > autobuild_make2.1.log 2> autobuild_make2.2.log
+			  	make CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CPPFLAGS" > autobuild_make2.1.log 2> autobuild_make2.2.log
 					tempRetval=$?
 					if [ ! "$tempRetval" == "0" ]
 					then
