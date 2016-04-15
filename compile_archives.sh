@@ -108,7 +108,7 @@ do
 			if [ ! "$tempRetval" == "0" ]
 			then
 			  echo MAKE FAILED
-				cat autobuild_make1.2.log
+				tail -n 10 autobuild_make1.2.log
 				echo CLEANING UP FROM LAST BUILD
 				make -s clean > autobuild_makeclean.1.log 2> autobuild_makeclean.2.log
 				tail -n 10 autobuild_makeclean.2.log
