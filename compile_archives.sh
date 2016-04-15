@@ -57,8 +57,47 @@ do
 	  tempFolder=$(ls | grep -E "$projectName-.+" | grep -vE "[.]tar")
 	  echo "working folder: $tempFolder"
 		pushd "$tempFolder" > /dev/null
-			./configure
+		  if [ -f configure.ac -a -f Makefile.am ]
+		  then
+		    autotools_source=1
+		    echo "DETECTED AUTOTOOLS"
+		  else
+		    if [ -f CMakeLists.txt ]
+		    then
+		      cmake_source=1
+		    	echo "DETECTED CMAKE"
+		    else
+		    	echo "UNKOWN SOURCE TYPE, ASSUMING SIMPLY MAKE"
+		    fi
+		  fi
+		  
+		  if [ "$autotools_source" == "1" ]
+		  then
+				./configure
+		  fi
+		  if [ "$cmake_source" == "1" ]
+		  then
+				ccmake .
+		  fi
 			make
+			makeRetval=$?
+			
+			if [ ! "$makeRetval" == "0" ]
+			then
+			  echo MAKE FAILED
+			  if [ "$autotools_source" == "1" ]
+			  then
+			  	echo TRYING AUTORECONF
+			  	autoreconf -i -f
+			  	./configure
+			  	make
+					makeRetval=$?
+					if [ ! "$makeRetval" == "0" ]
+					then
+					  echo MAKE STILL FAILED AFTER AUTORECONF
+					fi
+			  fi
+			fi
 		popd > /dev/null
 	
 	popd > /dev/null
