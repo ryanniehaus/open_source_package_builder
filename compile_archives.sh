@@ -83,7 +83,7 @@ do
 				if [ ! "$tempRetval" == "0" ]
 				then
 				  echo CONFIGURE FAILED
-					cat autobuild_configure1.2.log
+					tail -n 10 autobuild_configure1.2.log
 				else
 					echo SUCCESS ON CONFIGURE
 				fi
@@ -95,7 +95,7 @@ do
 				if [ ! "$tempRetval" == "0" ]
 				then
 				  echo CCMAKE FAILED
-					cat autobuild_ccmake.2.log
+					tail -n 10 autobuild_ccmake.2.log
 				else
 					echo SUCCESS ON CCMAKE
 				fi
@@ -109,7 +109,7 @@ do
 				cat autobuild_make1.2.log
 				echo CLEANING UP FROM LAST BUILD
 				make -s clean > autobuild_makeclean.1.log 2> autobuild_makeclean.2.log
-				cat autobuild_makeclean.2.log
+				tail -n 10 autobuild_makeclean.2.log
 			  if [ "$autotools_source" == "1" ]
 			  then
 			  	echo TRYING AUTORECONF
@@ -118,7 +118,7 @@ do
 					if [ ! "$tempRetval" == "0" ]
 					then
 					  echo AUTORECONF FAILED
-					  cat autobuild_autoreconf.2.log
+					  tail -n 10 autobuild_autoreconf.2.log
 					else
 						echo SUCCESS ON AUTORECONF
 					fi
@@ -128,7 +128,7 @@ do
 					if [ ! "$tempRetval" == "0" ]
 					then
 					  echo CONFIGURE STILL FAILED AFTER AUTORECONF
-					  cat autobuild_configure2.2.log
+					  tail -n 10 autobuild_configure2.2.log
 					else
 						echo SUCCESS ON SECOND CONFIGURE
 					fi
@@ -138,7 +138,7 @@ do
 					if [ ! "$tempRetval" == "0" ]
 					then
 					  echo MAKE STILL FAILED AFTER AUTORECONF
-					  cat autobuild_make2.2.log
+					  tail -n 10 autobuild_make2.2.log
 					else
 						echo SUCCESS ON SECOND MAKE
 					fi
