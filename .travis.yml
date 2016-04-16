@@ -1,6 +1,6 @@
 # blacklist
 branches:
-  except:
+  only:
     - /^RELEASE_.*$/
 
 language: c
