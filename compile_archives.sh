@@ -143,10 +143,12 @@ do
 					  tail -n 10 autobuild_make2.2.log
 					else
 						echo SUCCESS ON SECOND MAKE
+						archiveSuccess=1
 					fi
 			  fi
 			else
 				echo SUCCESS ON FIRST MAKE
+				archiveSuccess=1
 			fi
 		popd > /dev/null
 	
