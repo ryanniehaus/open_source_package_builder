@@ -34,6 +34,7 @@ chmod go-rwx,u+rx `pwd`"/ps.sh"
 ssh -q -oStrictHostKeyChecking=no git@github.com exit
 echo ssh check returned $?
 
+> archives_that_failed
 while IFS= read archiveLine
 do
   projectName=$(echo "$archiveLine" | cut -f 1 -d ",")
