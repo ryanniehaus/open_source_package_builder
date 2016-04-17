@@ -80,67 +80,60 @@ do
 		  if [ "$autotools_source" == "1" ]
 		  then
 		    #./configure --help
-				./configure > autobuild_configure1.1.log 2> autobuild_configure1.2.log
+				./configure
 				tempRetval=$?
 				if [ ! "$tempRetval" == "0" ]
 				then
 				  echo CONFIGURE FAILED
-					tail -n 10 autobuild_configure1.2.log
 				else
 					echo SUCCESS ON CONFIGURE
 				fi
 		  fi
 		  if [ "$cmake_source" == "1" ]
 		  then
-				ccmake . > autobuild_ccmake.1.log 2> autobuild_ccmake.2.log
+				ccmake .
 				tempRetval=$?
 				if [ ! "$tempRetval" == "0" ]
 				then
 				  echo CCMAKE FAILED
-					tail -n 10 autobuild_ccmake.2.log
 				else
 					echo SUCCESS ON CCMAKE
 				fi
 		  fi
 		  
-			make > autobuild_make1.1.log 2> autobuild_make1.2.log
+			make
 			tempRetval=$?
 			if [ ! "$tempRetval" == "0" ]
 			then
 			  echo MAKE FAILED
-				tail -n 10 autobuild_make1.2.log
 				echo CLEANING UP FROM LAST BUILD
-				make -s clean > autobuild_makeclean.1.log 2> autobuild_makeclean.2.log
-				tail -n 10 autobuild_makeclean.2.log
+				make clean
 			  if [ "$autotools_source" == "1" ]
 			  then
 			  	echo TRYING AUTORECONF
-			  	autoreconf -i -f > autobuild_autoreconf.1.log 2> autobuild_autoreconf.2.log
+			  	autoreconf -i -f
 					tempRetval=$?
 					if [ ! "$tempRetval" == "0" ]
 					then
 					  echo AUTORECONF FAILED
-					  tail -n 10 autobuild_autoreconf.2.log
 					else
 						echo SUCCESS ON AUTORECONF
 					fi
 					
-			  	./configure CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CPPFLAGS" > autobuild_configure2.1.log 2> autobuild_configure2.2.log
+			  	./configure CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CPPFLAGS"
 					tempRetval=$?
 					if [ ! "$tempRetval" == "0" ]
 					then
 					  echo CONFIGURE STILL FAILED AFTER AUTORECONF
-					  tail -n 10 autobuild_configure2.2.log
 					else
 						echo SUCCESS ON SECOND CONFIGURE
 					fi
 					
-			  	make > autobuild_make2.1.log 2> autobuild_make2.2.log
+			  	make
 					tempRetval=$?
 					if [ ! "$tempRetval" == "0" ]
 					then
 					  echo MAKE STILL FAILED AFTER AUTORECONF
-					  tail -n 10 autobuild_make2.2.log
 					else
 						echo SUCCESS ON SECOND MAKE
 						archiveSuccess=1
