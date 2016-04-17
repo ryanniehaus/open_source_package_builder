@@ -35,6 +35,7 @@ ssh -q -oStrictHostKeyChecking=no git@github.com exit
 echo ssh check returned $?
 
 > archives_that_failed
+cp archives_successfully_processed NEWarchives_successfully_processed
 while IFS= read archiveLine
 do
   projectName=$(echo "$archiveLine" | cut -f 1 -d ",")
@@ -151,17 +152,18 @@ do
 	
 	if [ "$archiveSuccess" == "1" ]
 	then
-	  echo "$archiveLine" >> archives_successfully_processed
+	  echo "$archiveLine" >> NEWarchives_successfully_processed
 	else
 	  echo "$archiveLine" >> archives_that_failed
 	fi
 done < archives_to_process
-mv archives_that_failed archives_to_process
 
 git config --get remote.origin.url
 git remote set-url origin git@github.com:ryanniehaus/open_source_package_builder.git
 git remote show origin
 git checkout master
+mv archives_that_failed archives_to_process
+mv NEWarchives_successfully_processed archives_successfully_processed
 git add archives_to_process
 git add archives_successfully_processed
 git status
