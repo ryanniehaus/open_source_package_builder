@@ -35,7 +35,7 @@ ssh -q -oStrictHostKeyChecking=no git@github.com exit
 echo ssh check returned $?
 
 > archives_that_failed
-cp archives_successfully_processed NEWarchives_successfully_processed
+> NEWarchives_successfully_processed
 while IFS= read archiveLine
 do
   projectName=$(echo "$archiveLine" | cut -f 1 -d ",")
