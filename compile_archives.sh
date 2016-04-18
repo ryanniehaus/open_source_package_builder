@@ -161,7 +161,7 @@ done < archives_to_process
 git config --get remote.origin.url
 git remote set-url origin git@github.com:ryanniehaus/open_source_package_builder.git
 git remote show origin
-git checkout -t -b master origin/master
+git update-ref HEAD master
 mv archives_that_failed archives_to_process
 mv NEWarchives_successfully_processed archives_successfully_processed
 git add archives_to_process
