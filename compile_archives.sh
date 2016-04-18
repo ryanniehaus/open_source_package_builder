@@ -42,6 +42,13 @@ do
   projectVersion=$(echo "$archiveLine" | cut -f 2 -d ",")
   archiveLocation=$(echo "$archiveLine" | cut -f 3 -d ",")
   archiveFileName=$(echo "$archiveLocation" | sed 's|^.\+/\([^/]\+\)$|\1|')
+	projectNameAndVersion=$(echo "$archiveLine" | sed 's|^\([^,]\+\),\([^,]\+\),\([^,]\+\)$|\1,\2,|')
+	alreadyProcessed=$(grep -E "^$projectNameAndVersion" archives_successfully_processed)
+	
+	if [ ! "$alreadyProcessed" == "" ]
+	then
+		echo "$projectName VERSION $projectVersion ALREADY SUCCESSFULLY PROCESSED, SKIPPING..."
+	else
 	echo PROCESSING "$projectName" VERSION "$projectVersion"
 	
 	mkdir tempCompileDir
@@ -156,6 +163,7 @@ do
 	else
 	  echo "$archiveLine" >> archives_that_failed
 	fi
+	fi
 done < archives_to_process
 
 git config --get remote.origin.url
@@ -164,9 +172,8 @@ git remote show origin
 git remote set-branches --add origin master
 git fetch
 git checkout master
-mv archives_that_failed archives_to_process
-mv NEWarchives_successfully_processed archives_successfully_processed
-git add archives_to_process
+git pull
+cat NEWarchives_successfully_processed >> archives_successfully_processed
 git add archives_successfully_processed
 git status
 git commit -m "updating lists"
