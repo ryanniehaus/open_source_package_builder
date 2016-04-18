@@ -1,2 +1,5 @@
 gdal,1.11.4,http://download.osgeo.org/gdal/1.11.4/gdal-1.11.4.tar.gz
 gdal,2.0.1,http://download.osgeo.org/gdal/2.0.1/gdal-2.0.1.tar.gz
+gdal,1.11.4,http://download.osgeo.org/gdal/1.11.4/gdal-1.11.4.tar.gz
+gdal,2.0.1,http://download.osgeo.org/gdal/2.0.1/gdal-2.0.1.tar.gz
+gdal,1.1.9,http://download.osgeo.org/gdal/gdal-1.1.9.tar.gz
