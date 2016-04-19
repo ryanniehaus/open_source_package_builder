@@ -171,6 +171,16 @@ do
 			then
 			  archiveSuccess=0
 			  
+			  if [ ! -d doc-pack ]
+			  then
+			    mkdir -v doc-pack
+  				cp -v *ABOUT* *README* *INSTALL* *COPYING* *LICENSE* *RELEASE* *VERSION* *NEWS* *PROVENANCE* *Changelog* *TODO* *CREDITS* doc-pak/
+			  fi
+			  
+			  echo "$projectName version $projectVersion" > description-pak
+			  echo >> description-pak
+			  cat *ABOUT* *README* *INSTALL* *LICENSE* >> description-pak
+			  
 			  licenseTitle=$(cat *LICENSE* | grep -vE "^$" | head -n 1)
 			  checkInstallCommonOptions=--install=no \
 			  	--fstrans=yes \
