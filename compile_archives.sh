@@ -182,7 +182,8 @@ do
 			  	--pkgsource="$archiveLocation" \
 			  	--pkgaltsource="https://github.com/ryanniehaus/open_source_package_builder/releases/download/$projectName-$projectVersion/$archiveFileName" \
 			  	--pakdir="$(pwd)/.." \
-					--maintainer="ryan.niehaus@gmail.com"
+					--maintainer="ryan.niehaus@gmail.com" \
+					-y
 			  checkinstall -S $checkInstallCommonOptions
 				if [ ! "$tempRetval" == "0" ]
 				then
@@ -198,6 +199,7 @@ do
 				then
 			  	archiveSuccess=1
 				fi
+				ls -la
 			fi
 		popd > /dev/null
 		
