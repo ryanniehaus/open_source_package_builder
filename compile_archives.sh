@@ -184,7 +184,7 @@ do
 			  cat *ABOUT* *README* *INSTALL* *LICENSE* >> description-pak
 			  
 			  licenseTitle=$(cat *LICENSE* | grep -vE "^$" | head -n 1)
-			  checkInstallCommonOptions=--install=no \
+			  checkInstallCommonOptions=$( echo --install=no \
 			  	--fstrans=yes \
 			  	--pkgname="$projectName" \
 			  	--pkgversion="$projectVersion" \
@@ -195,7 +195,7 @@ do
 			  	--pkgaltsource="https://github.com/ryanniehaus/open_source_package_builder/releases/download/$projectName-$projectVersion/$archiveFileName" \
 			  	--pakdir="$(pwd)/.." \
 					--maintainer="ryan.niehaus@gmail.com" \
-					-y
+					-y)
 			  checkinstall -S $checkInstallCommonOptions
 				if [ ! "$tempRetval" == "0" ]
 				then
