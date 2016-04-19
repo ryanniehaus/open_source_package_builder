@@ -229,13 +229,13 @@ do
 		  echo "  \"prerelease\": $projectIsPreReleaseString" >> releaseCreationRequest.json
 		  echo "}" >> releaseCreationRequest.json
 		  
-		  curl -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" -i -v -X POST -d "$(cat releaseCreationRequest.json)" --header "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/ryanniehaus/open_source_package_builder/releases" > new_release_response.log
+		  curl -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" -i -X POST -d "$(cat releaseCreationRequest.json)" --header "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/ryanniehaus/open_source_package_builder/releases" > new_release_response.log
 		  curlRetval="$?"
 		  if [ "$curlRetval" == "0" ]
 		  then
 				uploadBaseURL=$(cat new_release_response.log | dos2unix | grep -E "^[[:space:]]+[\"]upload_url[\"]:[[:space:]]+[\"][^\"]+[\"],$" | sed 's|^[[:space:]]*[\"]upload_url[\"]:[[:space:]]*[\"]\([^\"]*\)[\"],$|\1|;s|{[^}]\+}$||')
 				
-				curl -1 -i -v -X POST -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" --data-binary "@$archiveFileName"  --header "Accept: application/vnd.github.v3+json" --header "Content-Type: application/gzip" "$uploadBaseURL?name=$archiveFileName&label=archive%20of%20source%20used%20to%20create%20build%20for%20$projectName%20v$projectVersion"
+				curl -1 -i -X POST -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" --data-binary "@$archiveFileName"  --header "Accept: application/vnd.github.v3+json" --header "Content-Type: application/gzip" "$uploadBaseURL?name=$archiveFileName&label=archive%20of%20source%20used%20to%20create%20build%20for%20$projectName%20v$projectVersion"
 				curlRetval="$?"
 				if [ "$curlRetval" == "0" ]
 				then
