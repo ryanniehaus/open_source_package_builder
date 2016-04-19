@@ -50,6 +50,7 @@ do
 	alreadyProcessed=$(grep -E "^$projectNameAndVersion" archives_successfully_processed)
 	projectIsPreReleaseString="false"
 	checkForProjectPreReleaseIndicator=$(echo "$projectVersion" | grep -E "beta|alpha|[Rr][Cc]")
+	currentArch=$(arch)
 	
 	if [ ! "$checkForProjectPreReleaseIndicator" == "" ]
 	then
@@ -165,10 +166,43 @@ do
 				echo SUCCESS ON FIRST MAKE
 				archiveSuccess=1
 			fi
+			
+			if [ "$archiveSuccess" == "1" ]
+			then
+			  archiveSuccess=0
+			  
+			  licenseTitle=$(cat *LICENSE* | grep -vE "^$" | head -n 1)
+			  checkInstallCommonOptions=--install=no \
+			  	--fstrans=yes \
+			  	--pkgname="$projectName" \
+			  	--pkgversion="$projectVersion" \
+			  	--pkgarch="$currentArch" \
+			  	--pkgrelease="1+ryryautobuild" \
+			  	--pkglicense="$licenseTitle" \
+			  	--pkgsource="$archiveLocation" \
+			  	--pkgaltsource="https://github.com/ryanniehaus/open_source_package_builder/releases/download/$projectName-$projectVersion/$archiveFileName" \
+			  	--pakdir="$(pwd)/.." \
+					--maintainer="ryan.niehaus@gmail.com"
+			  checkinstall -S $checkInstallCommonOptions
+				if [ ! "$tempRetval" == "0" ]
+				then
+			  	archiveSuccess=1
+				fi
+			  checkinstall -R $checkInstallCommonOptions
+				if [ ! "$tempRetval" == "0" ]
+				then
+			  	archiveSuccess=1
+				fi
+			  checkinstall -D $checkInstallCommonOptions
+				if [ ! "$tempRetval" == "0" ]
+				then
+			  	archiveSuccess=1
+				fi
+			fi
 		popd > /dev/null
 		
 		if [ "$archiveSuccess" == "1" ]
-		then
+		then		  
 		  archiveSuccess=0
 		  echo "{" > releaseCreationRequest.json
 		  echo "  \"tag_name\": \"$projectName-$projectVersion\"," >> releaseCreationRequest.json
