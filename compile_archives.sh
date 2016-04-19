@@ -217,7 +217,7 @@ git checkout master
 git pull
 
 cat archives_successfully_processed >> NEWarchives_successfully_processed
-sort -t"," -k1,1d -k2,2V  NEWarchives_successfully_processed > archives_successfully_processed
+sort -t"," -k1,1d -k2,2V  NEWarchives_successfully_processed | grep -vE "^$" > archives_successfully_processed
 git add archives_successfully_processed
 git status
 git commit -m "updating lists"
