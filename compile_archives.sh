@@ -213,7 +213,7 @@ do
 				then
 			  	archiveSuccess=1
 				fi
-				ls -la
+				ls -la ..
 			fi
 		popd > /dev/null
 		
