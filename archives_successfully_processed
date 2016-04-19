@@ -15,3 +15,4 @@ gdal,1.8.1,http://download.osgeo.org/gdal/gdal-1.8.1.tar.gz
 gdal,1.9.0,http://download.osgeo.org/gdal/gdal-1.9.0.tar.gz
 gdal,1.9.1,http://download.osgeo.org/gdal/gdal-1.9.1.tar.gz
 gdal,1.9.2,http://download.osgeo.org/gdal/gdal-1.9.2.tar.gz
+gdal,2.0.0beta1,http://download.osgeo.org/gdal/2.0.0beta1/gdal-2.0.0beta1.tar.gz
