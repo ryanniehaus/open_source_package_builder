@@ -192,12 +192,12 @@ do
 			  	--pkgversion="$projectVersion" \
 			  	--pkgarch="$currentArch" \
 			  	--pkgrelease="1+ryryautobuild" \
-			  	--pkglicense="$licenseTitle" \
 			  	--pkgsource="$archiveLocation" \
 			  	--pkgaltsource="https://github.com/ryanniehaus/open_source_package_builder/releases/download/$projectName-$projectVersion/$archiveFileName" \
 			  	--pakdir="$(pwd)/.." \
 					--maintainer="ryan.niehaus@gmail.com" \
 					-y)
+				# --pkglicense="$licenseTitle"
 			  sudo checkinstall -S $checkInstallCommonOptions
 				if [ "$tempRetval" == "0" ]
 				then
