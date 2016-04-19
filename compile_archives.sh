@@ -200,7 +200,8 @@ git remote set-branches --add origin master
 git fetch
 git checkout master
 git pull
-cat NEWarchives_successfully_processed >> archives_successfully_processed
+
+sort -t"," -d -k1,1 -V -k2,2 NEWarchives_successfully_processed > archives_successfully_processed
 git add archives_successfully_processed
 git status
 git commit -m "updating lists"
