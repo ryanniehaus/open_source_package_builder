@@ -37,6 +37,8 @@ echo ssh check returned $?
 git config --get remote.origin.url
 git remote set-url origin git@github.com:ryanniehaus/open_source_package_builder.git
 git remote show origin
+git fetch
+git pull
 
 > archives_that_failed
 > NEWarchives_successfully_processed
@@ -267,5 +269,7 @@ sort -t"," -k1,1d -k2,2V  NEWarchives_successfully_processed | grep -vE "^$" > a
 git add archives_successfully_processed
 git status
 git commit -m "updating lists"
-git push
+git fetch && git pull && git push
+git fetch && git pull && git push
+git fetch && git pull && git push
 
