@@ -171,9 +171,9 @@ do
 			then
 			  archiveSuccess=0
 			  
-			  if [ ! -d doc-pack ]
+			  if [ ! -d doc-pak ]
 			  then
-			    mkdir -v doc-pack
+			    mkdir -v doc-pak
   				cp -v *ABOUT* *README* *INSTALL* *COPYING* *LICENSE* *RELEASE* *VERSION* *NEWS* *PROVENANCE* *Changelog* *TODO* *CREDITS* doc-pak/
 			  fi
 			  
