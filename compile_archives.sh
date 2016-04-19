@@ -37,6 +37,8 @@ echo ssh check returned $?
 git config --get remote.origin.url
 git remote set-url origin git@github.com:ryanniehaus/open_source_package_builder.git
 git remote show origin
+git remote set-branches --add origin master
+git remote show origin
 git fetch
 git pull
 
@@ -197,17 +199,17 @@ do
 					--maintainer="ryan.niehaus@gmail.com" \
 					-y)
 			  checkinstall -S $checkInstallCommonOptions
-				if [ ! "$tempRetval" == "0" ]
+				if [ "$tempRetval" == "0" ]
 				then
 			  	archiveSuccess=1
 				fi
 			  checkinstall -R $checkInstallCommonOptions
-				if [ ! "$tempRetval" == "0" ]
+				if [ "$tempRetval" == "0" ]
 				then
 			  	archiveSuccess=1
 				fi
 			  checkinstall -D $checkInstallCommonOptions
-				if [ ! "$tempRetval" == "0" ]
+				if [ "$tempRetval" == "0" ]
 				then
 			  	archiveSuccess=1
 				fi
@@ -259,8 +261,6 @@ do
 	fi
 done < archives_to_process
 
-git remote set-branches --add origin master
-git fetch
 git checkout master
 git pull
 
