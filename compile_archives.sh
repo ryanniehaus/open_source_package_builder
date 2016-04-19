@@ -198,17 +198,17 @@ do
 			  	--pakdir="$(pwd)/.." \
 					--maintainer="ryan.niehaus@gmail.com" \
 					-y)
-			  checkinstall -S $checkInstallCommonOptions
+			  sudo checkinstall -S $checkInstallCommonOptions
 				if [ "$tempRetval" == "0" ]
 				then
 			  	archiveSuccess=1
 				fi
-			  checkinstall -R $checkInstallCommonOptions
+			  sudo checkinstall -R $checkInstallCommonOptions
 				if [ "$tempRetval" == "0" ]
 				then
 			  	archiveSuccess=1
 				fi
-			  checkinstall -D $checkInstallCommonOptions
+			  sudo checkinstall -D $checkInstallCommonOptions
 				if [ "$tempRetval" == "0" ]
 				then
 			  	archiveSuccess=1
