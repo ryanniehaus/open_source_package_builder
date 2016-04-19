@@ -48,6 +48,13 @@ do
   archiveFileName=$(echo "$archiveLocation" | sed 's|^.\+/\([^/]\+\)$|\1|')
 	projectNameAndVersion=$(echo "$archiveLine" | sed 's|^\([^,]\+\),\([^,]\+\),\([^,]\+\)$|\1,\2,|')
 	alreadyProcessed=$(grep -E "^$projectNameAndVersion" archives_successfully_processed)
+	projectIsPreReleaseString="false"
+	checkForProjectPreReleaseIndicator=$(echo "$projectVersion" | grep -E "beta|alpha|[Rr][Cc]")
+	
+	if [ ! "$checkForProjectPreReleaseIndicator" == "" ]
+	then
+	  projectIsPreReleaseString="true"
+	fi
 	
 	if [ ! "$alreadyProcessed" == "" ]
 	then
@@ -169,7 +176,7 @@ do
 		  echo "  \"name\": \"$projectName-$projectVersion\"," >> releaseCreationRequest.json
 		  echo "  \"body\": \"Autobuilt version of $projectName-$projectVersion, downloaded from $archiveLocation\"," >> releaseCreationRequest.json
 		  echo "  \"draft\": false," >> releaseCreationRequest.json
-		  echo "  \"prerelease\": false" >> releaseCreationRequest.json
+		  echo "  \"prerelease\": $projectIsPreReleaseString" >> releaseCreationRequest.json
 		  echo "}" >> releaseCreationRequest.json
 		  
 		  curl -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" -i -v -X POST -d "$(cat releaseCreationRequest.json)" --header "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/ryanniehaus/open_source_package_builder/releases" > new_release_response.log
@@ -210,7 +217,7 @@ git checkout master
 git pull
 
 cat archives_successfully_processed >> NEWarchives_successfully_processed
-sort -t"," -d -k1,1 -V -k2,2 NEWarchives_successfully_processed > archives_successfully_processed
+sort -t"," -k1,1d -k2,2V  NEWarchives_successfully_processed > archives_successfully_processed
 git add archives_successfully_processed
 git status
 git commit -m "updating lists"
