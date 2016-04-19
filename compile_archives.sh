@@ -34,6 +34,10 @@ chmod go-rwx,u+rx `pwd`"/ps.sh"
 ssh -q -oStrictHostKeyChecking=no git@github.com exit
 echo ssh check returned $?
 
+git config --get remote.origin.url
+git remote set-url origin git@github.com:ryanniehaus/open_source_package_builder.git
+git remote show origin
+
 > archives_that_failed
 > NEWarchives_successfully_processed
 while IFS= read archiveLine
@@ -64,8 +68,10 @@ do
 		TEMP_COMPILE_DIR=`pwd`
 	
 	  tempFolder=$(ls | grep -E "$projectName-.+" | grep -vE "[.]tar")
-	  echo "working folder: $tempFolder"
-		pushd "$tempFolder" > /dev/null
+	  cp -rf $tempFolder $tempFolder.working
+	  mv $tempFolder ../$tempFolder
+	  echo "working folder: $tempFolder.working"
+		pushd "$tempFolder.working" > /dev/null
 		  CFLAGS=
 		  CXXFLAGS="-fpermissive -Wno-error"
 		  CPPFLAGS="$CXXFLAGS"
@@ -189,13 +195,13 @@ do
 	  echo "$archiveLine" >> NEWarchives_successfully_processed
 	else
 	  echo "$archiveLine" >> archives_that_failed
+	  git add $tempFolder
+	  git commit -m "adding source folder to failed compile branch"
+	  git push
 	fi
 	fi
 done < archives_to_process
 
-git config --get remote.origin.url
-git remote set-url origin git@github.com:ryanniehaus/open_source_package_builder.git
-git remote show origin
 git remote set-branches --add origin master
 git fetch
 git checkout master
