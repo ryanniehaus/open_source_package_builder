@@ -19,5 +19,6 @@ gdal,2.0.0,http://download.osgeo.org/gdal/2.0.0/gdal-2.0.0.tar.gz
 gdal,2.0.0beta1,http://download.osgeo.org/gdal/2.0.0beta1/gdal-2.0.0beta1.tar.gz
 gdal,2.0.0beta2,http://download.osgeo.org/gdal/2.0.0beta2/gdal-2.0.0beta2.tar.gz
 gdal,2.0.1,http://download.osgeo.org/gdal/2.0.1/gdal-2.0.1.tar.gz
+gdal,2.1.0RC1,http://download.osgeo.org/gdal/2.1.0/gdal-2.1.0RC1.tar.gz
 gdal,2.1.0beta1,http://download.osgeo.org/gdal/2.1.0beta1/gdal-2.1.0beta1.tar.gz
 gdal,1.10.0,http://download.osgeo.org/gdal/1.10.0/gdal-1.10.0.tar.gz
