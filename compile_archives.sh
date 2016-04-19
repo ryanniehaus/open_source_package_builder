@@ -89,7 +89,7 @@ do
 		  if [ "$autotools_source" == "1" ]
 		  then
 		    #./configure --help
-				./configure
+				./configure CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CPPFLAGS"
 				tempRetval=$?
 				if [ ! "$tempRetval" == "0" ]
 				then
