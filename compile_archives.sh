@@ -183,7 +183,7 @@ do
 			  
 			  echo "$projectName version $projectVersion" > description-pak
 			  echo >> description-pak
-			  cat *ABOUT* *README* *INSTALL* *LICENSE* >> description-pak
+			  cat *ABOUT* *README* *INSTALL* *LICENSE* | head -n 9 >> description-pak
 			  
 			  licenseTitle=$(cat *LICENSE* | grep -vE "^$" | head -n 1)
 			  checkInstallCommonOptions=$( echo --install=no \
