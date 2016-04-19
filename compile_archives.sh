@@ -197,7 +197,9 @@ do
 	  echo "$archiveLine" >> archives_that_failed
 	  git add $tempFolder
 	  git commit -m "adding source folder to failed compile branch"
-	  git push
+	  git fetch && git pull && git push
+	  git fetch && git pull && git push
+	  git fetch && git pull && git push
 	fi
 	fi
 done < archives_to_process
