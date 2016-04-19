@@ -158,15 +158,15 @@ do
 		then
 		  archiveSuccess=0
 		  echo "{" > releaseCreationRequest.json
-		  echo "  \"tag_name\": \"TESTRELEASE-1.0.0\"," >> releaseCreationRequest.json
+		  echo "  \"tag_name\": \"$projectName-$projectVersion\"," >> releaseCreationRequest.json
 		  echo "  \"target_commitish\": \"master\"," >> releaseCreationRequest.json
-		  echo "  \"name\": \"TESTRELEASE-1.0.0\"," >> releaseCreationRequest.json
-		  echo "  \"body\": \"Description of the release\"," >> releaseCreationRequest.json
+		  echo "  \"name\": \"$projectName-$projectVersion\"," >> releaseCreationRequest.json
+		  echo "  \"body\": \"Autobuilt version of $projectName-$projectVersion, downloaded from $archiveLocation\"," >> releaseCreationRequest.json
 		  echo "  \"draft\": false," >> releaseCreationRequest.json
 		  echo "  \"prerelease\": false" >> releaseCreationRequest.json
 		  echo "}" >> releaseCreationRequest.json
 		  
-		  curl -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" -i -v -X POST -d "$(cat releaseCreationRequest.json)" --header "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/ryanniehaus/open_source_package_builder/releases"
+		  curl -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" -i -v -X POST -d "$(cat releaseCreationRequest.json)" --header "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/ryanniehaus/open_source_package_builder/releases" > new_release_response.log
 		  curlRetval="$?"
 		  if [ "$curlRetval" == "0" ]
 		  then
