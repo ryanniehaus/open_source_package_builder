@@ -128,7 +128,7 @@ do
 				fi
 		  fi
 		  
-			make
+			make -s
 			tempRetval=$?
 			if [ ! "$tempRetval" == "0" ]
 			then
@@ -156,7 +156,7 @@ do
 						echo SUCCESS ON SECOND CONFIGURE
 					fi
 					
-			  	make
+			  	make -s
 					tempRetval=$?
 					if [ ! "$tempRetval" == "0" ]
 					then
@@ -198,17 +198,17 @@ do
 					--maintainer="ryan.niehaus@gmail.com" \
 					-y)
 				# --pkglicense="$licenseTitle"
-			  sudo checkinstall -S $checkInstallCommonOptions
+			  sudo checkinstall -S $checkInstallCommonOptions make -s install
 				if [ "$tempRetval" == "0" ]
 				then
 			  	archiveSuccess=1
 				fi
-			  sudo checkinstall -R $checkInstallCommonOptions
+			  sudo checkinstall -R $checkInstallCommonOptions make -s install
 				if [ "$tempRetval" == "0" ]
 				then
 			  	archiveSuccess=1
 				fi
-			  sudo checkinstall -D $checkInstallCommonOptions
+			  sudo checkinstall -D $checkInstallCommonOptions make -s install
 				if [ "$tempRetval" == "0" ]
 				then
 			  	archiveSuccess=1
