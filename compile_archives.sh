@@ -205,11 +205,12 @@ do
 				fi
 				
 				sudo urpmi rpm-build
-			  sudo checkinstall -R $checkInstallCommonOptions make -s install
+			  #sudo checkinstall -R $checkInstallCommonOptions make -s install
 				if [ "$tempRetval" == "0" ]
 				then
 			  	archiveSuccess=1
 				fi
+				
 			  sudo checkinstall -D $checkInstallCommonOptions make -s install
 				if [ "$tempRetval" == "0" ]
 				then
