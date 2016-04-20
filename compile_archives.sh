@@ -240,7 +240,12 @@ do
 				
 				for eachArchive in $(ls "$archiveFileName" *.tgz *.deb *.rpm)
 				do
-					curl -1 -X POST -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" --data-binary "@$eachArchive"  --header "Accept: application/vnd.github.v3+json" --header "Content-Type: application/gzip" "$uploadBaseURL?name=$archiveFileName&label=archive%20of%20source%20used%20to%20create%20build%20for%20$projectName%20v$projectVersion"
+				  echo UPLOADING "$eachArchive"
+				  
+				  contentType=$(file -b --mime-type "$eachArchive")
+				  urlEncodedLabel="$eachArchive"
+				  
+					curl -1 -X POST -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" --data-binary "@$eachArchive"  --header "Accept: application/vnd.github.v3+json" --header "Content-Type: $contentType" "$uploadBaseURL?name=$archiveFileName&label=$urlEncodedLabel"
 					curlRetval="$?"
 					if [ "$curlRetval" == "0" ]
 					then
