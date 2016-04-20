@@ -10,7 +10,7 @@ notifications:
 
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y expect dos2unix checkinstall rpm
+  - sudo apt-get install -y expect dos2unix checkinstall rpm rpmdevtools
 
 install: true
 

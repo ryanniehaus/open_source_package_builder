@@ -203,6 +203,8 @@ do
 				then
 			  	archiveSuccess=1
 				fi
+				
+				rpmdev-setuptree
 			  sudo checkinstall -R $checkInstallCommonOptions make -s install
 				if [ "$tempRetval" == "0" ]
 				then
