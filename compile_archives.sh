@@ -204,7 +204,7 @@ do
 			  	archiveSuccess=1
 				fi
 				
-				rpmdev-setuptree
+				sudo urpmi rpm-build
 			  sudo checkinstall -R $checkInstallCommonOptions make -s install
 				if [ "$tempRetval" == "0" ]
 				then
