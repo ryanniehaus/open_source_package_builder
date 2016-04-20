@@ -134,7 +134,7 @@ do
 			then
 			  echo MAKE FAILED
 				echo CLEANING UP FROM LAST BUILD
-				make clean
+				make -s clean
 			  if [ "$autotools_source" == "1" ]
 			  then
 			  	echo TRYING AUTORECONF
