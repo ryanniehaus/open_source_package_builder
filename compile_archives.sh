@@ -255,6 +255,7 @@ do
 		  echo "}" >> releaseCreationRequest.json
 		  
 		  curl -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" -X POST -d "$(cat releaseCreationRequest.json)" --header "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/ryanniehaus/open_source_package_builder/releases" > new_release_response.log
+		  echo
 		  curlRetval="$?"
 		  if [ "$curlRetval" == "0" ]
 		  then
@@ -268,6 +269,7 @@ do
 				  urlEncodedLabel=$(urlencode "$eachArchive")
 				  
 					curl -1 -X POST -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" --data-binary "@$eachArchive"  --header "Accept: application/vnd.github.v3+json" --header "Content-Type: $contentType" "$uploadBaseURL?name=$eachArchive&label=$urlEncodedLabel"
+					echo
 					curlRetval="$?"
 					if [ "$curlRetval" == "0" ]
 					then
