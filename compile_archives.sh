@@ -73,6 +73,11 @@ do
 	checkForProjectPreReleaseIndicator=$(echo "$projectVersion" | grep -E "beta|alpha|[Rr][Cc]")
 	currentArch=$(arch)
 	
+	if [ "$currentArch" == "x86_64" ]
+	then
+	  currentArch="amd64"
+	fi
+	
 	if [ ! "$checkForProjectPreReleaseIndicator" == "" ]
 	then
 	  projectIsPreReleaseString="true"
