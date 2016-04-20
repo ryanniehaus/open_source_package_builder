@@ -1,5 +1,22 @@
 #!/usr/bin/env bash
 
+urlencode() {
+    # urlencode <string>
+    old_lc_collate=$LC_COLLATE
+    LC_COLLATE=C
+    
+    local length="${#1}"
+    for (( i = 0; i < length; i++ )); do
+        local c="${1:i:1}"
+        case $c in
+            [a-zA-Z0-9.~_-]) printf "$c" ;;
+            *) printf '%%%02X' "'$c" ;;
+        esac
+    done
+    
+    LC_COLLATE=$old_lc_collate
+}
+
 wget https://github.com/ryanniehaus/heroku-bash-buildpack/raw/master/bin/dataURLFromCloudinary.py
 chmod u+rx dataURLFromCloudinary.py
 
@@ -243,7 +260,7 @@ do
 				  echo UPLOADING "$eachArchive"
 				  
 				  contentType=$(file -b --mime-type "$eachArchive")
-				  urlEncodedLabel="$eachArchive"
+				  urlEncodedLabel=$(urlencode "$eachArchive")
 				  
 					curl -1 -X POST -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" --data-binary "@$eachArchive"  --header "Accept: application/vnd.github.v3+json" --header "Content-Type: $contentType" "$uploadBaseURL?name=$eachArchive&label=$urlEncodedLabel"
 					curlRetval="$?"
