@@ -245,7 +245,7 @@ do
 				  contentType=$(file -b --mime-type "$eachArchive")
 				  urlEncodedLabel="$eachArchive"
 				  
-					curl -1 -X POST -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" --data-binary "@$eachArchive"  --header "Accept: application/vnd.github.v3+json" --header "Content-Type: $contentType" "$uploadBaseURL?name=$archiveFileName&label=$urlEncodedLabel"
+					curl -1 -X POST -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" --data-binary "@$eachArchive"  --header "Accept: application/vnd.github.v3+json" --header "Content-Type: $contentType" "$uploadBaseURL?name=$eachArchive&label=$urlEncodedLabel"
 					curlRetval="$?"
 					if [ "$curlRetval" == "0" ]
 					then
