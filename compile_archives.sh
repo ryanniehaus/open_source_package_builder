@@ -39,16 +39,14 @@ wget --no-cache $(./dataURLFromCloudinary.py id_rsa.pub) &> /dev/null
 
 chmod og-rwx,u+rw id_rsa*
 
-echo "#!/usr/bin/env expect" > `pwd`"/ps.sh"
-echo "spawn ssh-add id_rsa" >> `pwd`"/ps.sh"
-echo "expect \"Enter passphrase for id_rsa:\"" >> `pwd`"/ps.sh"
-echo "send \"$RSA_PASSPHRASE\n\";" >> `pwd`"/ps.sh"
-echo "interact" >> `pwd`"/ps.sh"
-echo >> `pwd`"/ps.sh"
-chmod go-rwx,u+rx `pwd`"/ps.sh"
-`pwd`"/ps.sh"
+expect << EOF
+  spawn ssh-add id_rsa
+  expect "Enter passphrase"
+  send "$RSA_PASSPHRASE\r"
+  expect eof
+EOF
 
-ssh -q -oStrictHostKeyChecking=no git@github.com exit
+ssh -q -oStrictHostKeyChecking=no git@github.com
 echo ssh check returned $?
 
 git config --get remote.origin.url
