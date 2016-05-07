@@ -32,9 +32,9 @@ git config --global user.name "Ryan Niehaus"
 git config --global credential.https://github.com.username ryanniehaus
 git config --global push.default simple
 
-echo downloading $(./dataURLFromCloudinary.py id_rsa)
+echo downloading id_rsa from cloudinary
 wget --no-cache $(./dataURLFromCloudinary.py id_rsa) &> /dev/null
-echo downloading $(./dataURLFromCloudinary.py id_rsa.pub)
+echo downloading id_rsa.pub from cloudinary
 wget --no-cache $(./dataURLFromCloudinary.py id_rsa.pub) &> /dev/null
 
 chmod og-rwx,u+rw id_rsa*
