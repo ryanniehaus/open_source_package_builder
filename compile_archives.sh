@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 
 urlencode() {
-    # urlencode <string>
-    old_lc_collate=$LC_COLLATE
-    LC_COLLATE=C
-    
-    local length="${#1}"
-    for (( i = 0; i < length; i++ )); do
-        local c="${1:i:1}"
-        case $c in
-            [a-zA-Z0-9.~_-]) printf "$c" ;;
-            *) printf '%%%02X' "'$c" ;;
-        esac
-    done
-    
-    LC_COLLATE=$old_lc_collate
+	# urlencode <string>
+	old_lc_collate=$LC_COLLATE
+	LC_COLLATE=C
+	
+	local length="${#1}"
+	for (( i = 0; i < length; i++ )); do
+		local c="${1:i:1}"
+		case $c in
+			[a-zA-Z0-9.~_-]) printf "$c" ;;
+			*) printf '%%%02X' "'$c" ;;
+		esac
+	done
+	
+	LC_COLLATE=$old_lc_collate
 }
 
 wget https://github.com/ryanniehaus/heroku-bash-buildpack/raw/master/bin/dataURLFromCloudinary.py
@@ -40,10 +40,10 @@ wget --no-cache $(./dataURLFromCloudinary.py id_rsa.pub) &> /dev/null
 chmod og-rwx,u+rw id_rsa*
 
 expect << EOF
-  spawn ssh-add id_rsa
-  expect "Enter passphrase"
-  send "$RSA_PASSPHRASE\r"
-  expect eof
+	spawn ssh-add id_rsa
+	expect "Enter passphrase"
+	send "$RSA_PASSPHRASE\r"
+	expect eof
 EOF
 
 ssh -q -oStrictHostKeyChecking=no git@github.com
@@ -61,10 +61,10 @@ git pull
 > NEWarchives_successfully_processed
 while IFS= read archiveLine
 do
-  projectName=$(echo "$archiveLine" | cut -f 1 -d ",")
-  projectVersion=$(echo "$archiveLine" | cut -f 2 -d ",")
-  archiveLocation=$(echo "$archiveLine" | cut -f 3 -d ",")
-  archiveFileName=$(echo "$archiveLocation" | sed 's|^.\+/\([^/]\+\)$|\1|')
+	projectName=$(echo "$archiveLine" | cut -f 1 -d ",")
+	projectVersion=$(echo "$archiveLine" | cut -f 2 -d ",")
+	archiveLocation=$(echo "$archiveLine" | cut -f 3 -d ",")
+	archiveFileName=$(echo "$archiveLocation" | sed 's|^.\+/\([^/]\+\)$|\1|')
 	projectNameAndVersion=$(echo "$archiveLine" | sed 's|^\([^,]\+\),\([^,]\+\),\([^,]\+\)$|\1,\2,|')
 	alreadyProcessed=$(grep -E "^$projectNameAndVersion" archives_successfully_processed)
 	projectIsPreReleaseString="false"
@@ -73,12 +73,12 @@ do
 	
 	if [ "$currentArch" == "x86_64" ]
 	then
-	  currentArch="amd64"
+		currentArch="amd64"
 	fi
 	
 	if [ ! "$checkForProjectPreReleaseIndicator" == "" ]
 	then
-	  projectIsPreReleaseString="true"
+		projectIsPreReleaseString="true"
 	fi
 	
 	if [ ! "$alreadyProcessed" == "" ]
@@ -86,6 +86,8 @@ do
 		echo "$projectName VERSION $projectVersion ALREADY SUCCESSFULLY PROCESSED, SKIPPING..."
 	else
 	echo PROCESSING "$projectName" VERSION "$projectVersion"
+		
+	projectFolderAlreadyExists=$(ls | grep -E "$projectName-.+" | grep -vE "[.]tar")
 	
 	mkdir tempCompileDir
 	pushd tempCompileDir > /dev/null
@@ -93,99 +95,106 @@ do
 		wget "$archiveLocation"
 	
 		archiveSuccess=0
-	
-		#unzip archive
-		tar -axf "$archiveFileName"
-		#compile archive
-		TEMP_COMPILE_DIR=`pwd`
-	
-	  tempFolder=$(ls | grep -E "$projectName-.+" | grep -vE "[.]tar")
-	  cp -rf $tempFolder $tempFolder.working
-	  mv $tempFolder ../$tempFolder
-	  echo "working folder: $tempFolder.working"
+		
+		if [ "$projectFolderAlreadyExists" == "" ]
+		then
+			#unzip archive
+			tar -axf "$archiveFileName"
+			#compile archive
+			TEMP_COMPILE_DIR=`pwd`
+		
+			tempFolder=$(ls | grep -E "$projectName-.+" | grep -vE "[.]tar")
+			mv $tempFolder ../$tempFolder
+		else
+			echo "THIS IS A FAILED REBUILD RUN"
+			echo "setting tempFolder to $projectFolderAlreadyExists"
+			tempFolder="$projectFolderAlreadyExists"
+		fi
+		cp -rf ../$tempFolder $tempFolder.working
+		echo "working folder: $tempFolder.working"
 		pushd "$tempFolder.working" > /dev/null
-		  CFLAGS=
-		  CXXFLAGS="-fpermissive -Wno-error"
-		  CPPFLAGS="$CXXFLAGS"
-		  export CFLAGS CXXFLAGS CPPFLAGS
-		  if [ -f configure.ac -o -f Makefile.am -o -f configure.in -o -f Makefile.in -o -f configure ]
-		  then
-		    autotools_source=1
-		    echo "DETECTED AUTOTOOLS"
-		  else
-		    if [ -f CMakeLists.txt ]
-		    then
-		      cmake_source=1
-		    	echo "DETECTED CMAKE"
-		    else
-		    	echo "UNKOWN SOURCE TYPE, ASSUMING SIMPLY MAKE"
-		    	echo "Directory listing:"
-		    	ls -la
-		    fi
-		  fi
-		  
-		  if [ "$autotools_source" == "1" ]
-		  then
-		    #./configure --help
+			CFLAGS=
+			CXXFLAGS="-fpermissive -Wno-error"
+			CPPFLAGS="$CXXFLAGS"
+			export CFLAGS CXXFLAGS CPPFLAGS
+			if [ -f configure.ac -o -f Makefile.am -o -f configure.in -o -f Makefile.in -o -f configure ]
+			then
+				autotools_source=1
+				echo "DETECTED AUTOTOOLS"
+			else
+				if [ -f CMakeLists.txt ]
+				then
+					cmake_source=1
+					echo "DETECTED CMAKE"
+				else
+					echo "UNKOWN SOURCE TYPE, ASSUMING SIMPLY MAKE"
+					echo "Directory listing:"
+					ls -la
+				fi
+			fi
+			
+			if [ "$autotools_source" == "1" ]
+			then
+				#./configure --help
 				./configure
 				tempRetval=$?
 				if [ ! "$tempRetval" == "0" ]
 				then
-				  echo CONFIGURE FAILED
+					echo CONFIGURE FAILED
 				else
 					echo SUCCESS ON CONFIGURE
 				fi
-		  fi
-		  if [ "$cmake_source" == "1" ]
-		  then
+			fi
+			if [ "$cmake_source" == "1" ]
+			then
 				ccmake .
 				tempRetval=$?
 				if [ ! "$tempRetval" == "0" ]
 				then
-				  echo CCMAKE FAILED
+					echo CCMAKE FAILED
 				else
 					echo SUCCESS ON CCMAKE
 				fi
-		  fi
-		  
+			fi
+			
 			make -s
 			tempRetval=$?
 			if [ ! "$tempRetval" == "0" ]
 			then
-			  echo MAKE FAILED
+				echo MAKE FAILED
 				echo CLEANING UP FROM LAST BUILD
 				make -s clean
-			  if [ "$autotools_source" == "1" ]
-			  then
-			  	echo TRYING AUTORECONF
-			  	autoreconf -i -f
+				if [ "$autotools_source" == "1" ]
+				then
+					echo TRYING AUTORECONF
+					autoreconf -i -f
 					tempRetval=$?
 					if [ ! "$tempRetval" == "0" ]
 					then
-					  echo AUTORECONF FAILED
+						echo AUTORECONF FAILED
 					else
 						echo SUCCESS ON AUTORECONF
 					fi
 					
-			  	./configure
+					./configure
 					tempRetval=$?
 					if [ ! "$tempRetval" == "0" ]
 					then
-					  echo CONFIGURE STILL FAILED AFTER AUTORECONF
+						echo CONFIGURE STILL FAILED AFTER AUTORECONF
 					else
 						echo SUCCESS ON SECOND CONFIGURE
 					fi
 					
-			  	make -s
+					make -s
 					tempRetval=$?
 					if [ ! "$tempRetval" == "0" ]
 					then
-					  echo MAKE STILL FAILED AFTER AUTORECONF
+						echo MAKE STILL FAILED AFTER AUTORECONF
 					else
 						echo SUCCESS ON SECOND MAKE
 						archiveSuccess=1
 					fi
-			  fi
+				fi
 			else
 				echo SUCCESS ON FIRST MAKE
 				archiveSuccess=1
@@ -193,48 +202,48 @@ do
 			
 			if [ "$archiveSuccess" == "1" ]
 			then
-			  archiveSuccess=0
-			  
-			  if [ ! -d doc-pak ]
-			  then
-			    mkdir -v doc-pak
-  				cp -v *ABOUT* *README* *INSTALL* *COPYING* *LICENSE* *RELEASE* *VERSION* *NEWS* *PROVENANCE* *Changelog* *TODO* *CREDITS* doc-pak/
-			  fi
-			  
-			  echo "$projectName version $projectVersion" > description-pak
-			  echo >> description-pak
-			  cat *ABOUT* *README* *INSTALL* *LICENSE* | head -n 9 >> description-pak
-			  
-			  licenseTitle=$(cat *LICENSE* | grep -vE "^$" | head -n 1)
-			  checkInstallCommonOptions=$( echo --install=no \
-			  	--fstrans=yes \
-			  	--pkgname="$projectName" \
-			  	--pkgversion="$projectVersion" \
-			  	--pkgarch="$currentArch" \
-			  	--pkgrelease="1+ryryautobuild" \
-			  	--pkgsource="$archiveLocation" \
-			  	--pkgaltsource="https://github.com/ryanniehaus/open_source_package_builder/releases/download/$projectName-$projectVersion/$archiveFileName" \
-			  	--pakdir="$(pwd)/.." \
+				archiveSuccess=0
+				
+				if [ ! -d doc-pak ]
+				then
+					mkdir -v doc-pak
+					cp -v *ABOUT* *README* *INSTALL* *COPYING* *LICENSE* *RELEASE* *VERSION* *NEWS* *PROVENANCE* *Changelog* *TODO* *CREDITS* doc-pak/
+				fi
+				
+				echo "$projectName version $projectVersion" > description-pak
+				echo >> description-pak
+				cat *ABOUT* *README* *INSTALL* *LICENSE* | head -n 9 >> description-pak
+				
+				licenseTitle=$(cat *LICENSE* | grep -vE "^$" | head -n 1)
+				checkInstallCommonOptions=$( echo --install=no \
+					--fstrans=yes \
+					--pkgname="$projectName" \
+					--pkgversion="$projectVersion" \
+					--pkgarch="$currentArch" \
+					--pkgrelease="1+ryryautobuild" \
+					--pkgsource="$archiveLocation" \
+					--pkgaltsource="https://github.com/ryanniehaus/open_source_package_builder/releases/download/$projectName-$projectVersion/$archiveFileName" \
+					--pakdir="$(pwd)/.." \
 					--maintainer="ryan.niehaus@gmail.com" \
 					-y)
 				# --pkglicense="$licenseTitle"
-			  sudo checkinstall -S $checkInstallCommonOptions make -s install
+				sudo checkinstall -S $checkInstallCommonOptions make -s install
 				if [ "$tempRetval" == "0" ]
 				then
-			  	archiveSuccess=1
+					archiveSuccess=1
 				fi
 				
 				sudo urpmi rpm-build
-			  #sudo checkinstall -R $checkInstallCommonOptions make -s install
+				#sudo checkinstall -R $checkInstallCommonOptions make -s install
 				if [ "$tempRetval" == "0" ]
 				then
-			  	archiveSuccess=1
+					archiveSuccess=1
 				fi
 				
-			  sudo checkinstall -D $checkInstallCommonOptions make -s install
+				sudo checkinstall -D $checkInstallCommonOptions make -s install
 				if [ "$tempRetval" == "0" ]
 				then
-			  	archiveSuccess=1
+					archiveSuccess=1
 				fi
 				ls -la ..
 			fi
@@ -242,30 +251,30 @@ do
 		
 		if [ "$archiveSuccess" == "1" ]
 		then		  
-		  archiveSuccess=0
-		  echo "{" > releaseCreationRequest.json
-		  echo "  \"tag_name\": \"$projectName-$projectVersion\"," >> releaseCreationRequest.json
-		  echo "  \"target_commitish\": \"master\"," >> releaseCreationRequest.json
-		  echo "  \"name\": \"$projectName-$projectVersion\"," >> releaseCreationRequest.json
-		  echo "  \"body\": \"Autobuilt version of $projectName-$projectVersion, downloaded from $archiveLocation\"," >> releaseCreationRequest.json
-		  echo "  \"draft\": false," >> releaseCreationRequest.json
-		  echo "  \"prerelease\": $projectIsPreReleaseString" >> releaseCreationRequest.json
-		  echo "}" >> releaseCreationRequest.json
-		  
-		  curl -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" -X POST -d "$(cat releaseCreationRequest.json)" --header "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/ryanniehaus/open_source_package_builder/releases" > new_release_response.log
-		  echo
-		  curlRetval="$?"
-		  if [ "$curlRetval" == "0" ]
-		  then
+			archiveSuccess=0
+			echo "{" > releaseCreationRequest.json
+			echo "  \"tag_name\": \"$projectName-$projectVersion\"," >> releaseCreationRequest.json
+			echo "  \"target_commitish\": \"master\"," >> releaseCreationRequest.json
+			echo "  \"name\": \"$projectName-$projectVersion\"," >> releaseCreationRequest.json
+			echo "  \"body\": \"Autobuilt version of $projectName-$projectVersion, downloaded from $archiveLocation\"," >> releaseCreationRequest.json
+			echo "  \"draft\": false," >> releaseCreationRequest.json
+			echo "  \"prerelease\": $projectIsPreReleaseString" >> releaseCreationRequest.json
+			echo "}" >> releaseCreationRequest.json
+			
+			curl -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" -X POST -d "$(cat releaseCreationRequest.json)" --header "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/ryanniehaus/open_source_package_builder/releases" > new_release_response.log
+			echo
+			curlRetval="$?"
+			if [ "$curlRetval" == "0" ]
+			then
 				uploadBaseURL=$(cat new_release_response.log | dos2unix | grep -E "^[[:space:]]+[\"]upload_url[\"]:[[:space:]]+[\"][^\"]+[\"],$" | sed 's|^[[:space:]]*[\"]upload_url[\"]:[[:space:]]*[\"]\([^\"]*\)[\"],$|\1|;s|{[^}]\+}$||')
 				
 				for eachArchive in $(ls "$archiveFileName" *.tgz *.deb *.rpm)
 				do
-				  echo UPLOADING "$eachArchive"
-				  
-				  contentType=$(file -b --mime-type "$eachArchive")
-				  urlEncodedLabel=$(urlencode "$eachArchive")
-				  
+					echo UPLOADING "$eachArchive"
+					
+					contentType=$(file -b --mime-type "$eachArchive")
+					urlEncodedLabel=$(urlencode "$eachArchive")
+					
 					curl -1 -X POST -u "ryanniehaus:$GITHUB_PERSONAL_ACCESS_TOKEN" --data-binary "@$eachArchive"  --header "Accept: application/vnd.github.v3+json" --header "Content-Type: $contentType" "$uploadBaseURL?name=$eachArchive&label=$urlEncodedLabel"
 					echo
 					curlRetval="$?"
@@ -274,7 +283,7 @@ do
 						archiveSuccess=1
 					fi
 				done
-		  fi
+			fi
 		fi
 	
 	popd > /dev/null
@@ -282,14 +291,17 @@ do
 	
 	if [ "$archiveSuccess" == "1" ]
 	then
-	  echo "$archiveLine" >> NEWarchives_successfully_processed
+		echo "$archiveLine" >> NEWarchives_successfully_processed
 	else
-	  echo "$archiveLine" >> archives_that_failed
-	  git add $tempFolder
-	  git commit -m "adding source folder to failed compile branch"
-	  git fetch && git pull && git push
-	  git fetch && git pull && git push
-	  git fetch && git pull && git push
+		echo "$archiveLine" >> archives_that_failed
+		if [ "$projectFolderAlreadyExists" == "" ]
+		then
+			git add $tempFolder
+			git commit -m "adding source folder to failed compile branch"
+			git fetch && git pull && git push
+			git fetch && git pull && git push
+			git fetch && git pull && git push
+		fi
 	fi
 	fi
 done < archives_to_process
