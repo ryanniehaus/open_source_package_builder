@@ -296,15 +296,15 @@ do
 		echo "$archiveLine" >> archives_that_failed
 		if [ "$projectFolderAlreadyExists" == "" ]
 		then
-			git add $tempFolder
-			git commit -m "adding source folder to failed compile branch"
 			echo git branch
 			git branch
-			detachedHeadSha1=$(git branch | sed 's|^[*][[:space:]]\+(detached from \([a-f0-9]\+\))$|\1|')
+			detachedHeadSha1=$(git branch | grep -E "^[*]" | sed 's|^[*][[:space:]]\+(detached from \([a-f0-9]\+\))$|\1|')
 			git status
 			git checkout "$detachedHeadSha1"
 #			echo git show-ref
 #			git show-ref
+			git add $tempFolder
+			git commit -m "adding source folder to failed compile branch"
 			git fetch && git pull && git push
 			git fetch && git pull && git push
 			git fetch && git pull && git push
