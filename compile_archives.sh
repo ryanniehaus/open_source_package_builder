@@ -300,10 +300,11 @@ do
 			git commit -m "adding source folder to failed compile branch"
 			echo git branch
 			git branch
-			echo git show-ref
-			git show-ref
-			echo git log
-			git log
+			detachedHeadSha1=$(git branch | sed 's|^[*][[:space:]]\+(detached from \([a-f0-9]\+\))$|\1|')
+			git status
+			git checkout "$detachedHeadSha1"
+#			echo git show-ref
+#			git show-ref
 			git fetch && git pull && git push
 			git fetch && git pull && git push
 			git fetch && git pull && git push
