@@ -298,6 +298,12 @@ do
 		then
 			git add $tempFolder
 			git commit -m "adding source folder to failed compile branch"
+			echo git branch
+			git branch
+			echo git show-ref
+			git show-ref
+			echo git log
+			git log
 			git fetch && git pull && git push
 			git fetch && git pull && git push
 			git fetch && git pull && git push
