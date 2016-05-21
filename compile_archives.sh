@@ -298,9 +298,10 @@ do
 		then
 			echo git branch
 			git branch
-			detachedHeadSha1=$(git branch | grep -E "^[*]" | sed 's|^[*][[:space:]]\+(detached from \([a-f0-9]\+\))$|\1|')
+			detachedHeadSha1=$(git branch | grep -vE "^[*]" | sed 's|[[:space:]]\+||')
 			git status
 			git checkout "$detachedHeadSha1"
+			git fetch && git pull
 #			echo git show-ref
 #			git show-ref
 			git add $tempFolder
