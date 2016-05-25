@@ -214,7 +214,7 @@ do
 					GLOBALpackageShortDescription="greet user"
 					GLOBALpackageLongDescription="$GLOBALpackageName greets the user, or the world."
 					
-					./build_major_distro_packages.sh
+					../../build_major_distro_packages.sh
 					tempRetval="$?"
 					if [ "$tempRetval" == 0 ]
 					then
