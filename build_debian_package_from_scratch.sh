@@ -8,11 +8,16 @@
 #GLOBALpackageShortDescription
 #GLOBALpackageLongDescription
 
-rm -rf debian
+if [ -d ]
+then
+	rm -rf debian
+fi
 mkdir -p debian/source
 
 #builds changelog
 dch --create -v "$GLOBALsourceVersion"-"$GLOBALpackageRevision" --package "$GLOBALpackageName"
+ls -la
+ls -la debian
 
 echo 9 > debian/compat
 
@@ -44,6 +49,9 @@ echo "3.0 (quilt)" > debian/source/format
 
 echo "usr/bin" > debian/"$GLOBALpackageName".dirs
 echo "usr/share/man/man1" >> debian/"$GLOBALpackageName".dirs
+
+ls -la
+ls -la debian
 
 debuild -us -uc
 
