@@ -204,47 +204,50 @@ do
 			then
 				archiveSuccess=0
 				
-				if [ ! -d doc-pak ]
+				if [ "1" == "1" ]
 				then
-					mkdir -v doc-pak
-					cp -v *ABOUT* *README* *INSTALL* *COPYING* *LICENSE* *RELEASE* *VERSION* *NEWS* *PROVENANCE* *Changelog* *TODO* *CREDITS* doc-pak/
-				fi
-				
-				echo "$projectName version $projectVersion" > description-pak
-				echo >> description-pak
-				cat *ABOUT* *README* *INSTALL* *LICENSE* | head -n 9 >> description-pak
-				
-				licenseTitle=$(cat *LICENSE* | grep -vE "^$" | head -n 1)
-				checkInstallCommonOptions=$( echo --install=no \
-					--fstrans=yes \
-					--pkgname="$projectName" \
-					--pkgversion="$projectVersion" \
-					--pkgarch="$currentArch" \
-					--pkgrelease="1+ryryautobuild" \
-					--pkgsource="$archiveLocation" \
-					--pkgaltsource="https://github.com/ryanniehaus/open_source_package_builder/releases/download/$projectName-$projectVersion/$archiveFileName" \
-					--pakdir="$(pwd)/.." \
-					--maintainer="ryan.niehaus@gmail.com" \
-					-y)
-				# --pkglicense="$licenseTitle"
-				sudo checkinstall -S $checkInstallCommonOptions make -s install
-				if [ "$tempRetval" == "0" ]
-				then
-					archiveSuccess=1
-				fi
-				
-				
-				sudo urpmi rpm-build
-				#sudo checkinstall -R $checkInstallCommonOptions make -s install
-				if [ "$tempRetval" == "0" ]
-				then
-					archiveSuccess=1
-				fi
-				
-				sudo checkinstall -D $checkInstallCommonOptions make -s install
-				if [ "$tempRetval" == "0" ]
-				then
-					archiveSuccess=1
+				else
+					if [ ! -d doc-pak ]
+					then
+						mkdir -v doc-pak
+						cp -v *ABOUT* *README* *INSTALL* *COPYING* *LICENSE* *RELEASE* *VERSION* *NEWS* *PROVENANCE* *Changelog* *TODO* *CREDITS* doc-pak/
+					fi
+					
+					echo "$projectName version $projectVersion" > description-pak
+					echo >> description-pak
+					cat *ABOUT* *README* *INSTALL* *LICENSE* | head -n 9 >> description-pak
+					
+					licenseTitle=$(cat *LICENSE* | grep -vE "^$" | head -n 1)
+					checkInstallCommonOptions=$( echo --install=no \
+						--fstrans=yes \
+						--pkgname="$projectName" \
+						--pkgversion="$projectVersion" \
+						--pkgarch="$currentArch" \
+						--pkgrelease="1+ryryautobuild" \
+						--pkgsource="$archiveLocation" \
+						--pkgaltsource="https://github.com/ryanniehaus/open_source_package_builder/releases/download/$projectName-$projectVersion/$archiveFileName" \
+						--pakdir="$(pwd)/.." \
+						--maintainer="ryan.niehaus@gmail.com" \
+						-y)
+					# --pkglicense="$licenseTitle"
+					sudo checkinstall -S $checkInstallCommonOptions make -s install
+					if [ "$tempRetval" == "0" ]
+					then
+						archiveSuccess=1
+					fi
+					
+					sudo urpmi rpm-build
+					#sudo checkinstall -R $checkInstallCommonOptions make -s install
+					if [ "$tempRetval" == "0" ]
+					then
+						archiveSuccess=1
+					fi
+					
+					sudo checkinstall -D $checkInstallCommonOptions make -s install
+					if [ "$tempRetval" == "0" ]
+					then
+						archiveSuccess=1
+					fi
 				fi
 				ls -la ..
 			fi
