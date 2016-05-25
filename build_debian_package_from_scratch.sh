@@ -18,6 +18,7 @@ export DEBFULLNAME="$GLOBALmaintainerName"
 export DEBEMAIL="$GLOBALmaintainerEmail"
 
 #builds changelog
+> debian/changelog
 dch --create -v "$GLOBALsourceVersion"-"$GLOBALpackageRevision" --package "$GLOBALpackageName" --distribution "Unstable" --force-distribution
 ls -la
 ls -la debian
