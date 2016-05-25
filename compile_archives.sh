@@ -206,6 +206,20 @@ do
 				
 				if [ "1" == "1" ]
 				then
+					GLOBALpackageName="$projectName"
+					GLOBALsourceVersion="$projectVersion"
+					GLOBALpackageRevision=1
+					GLOBALmaintainerName="Ryan Niehaus"
+					GLOBALmaintainerEmail="ospb@nieha.us"
+					GLOBALpackageShortDescription="greet user"
+					GLOBALpackageLongDescription="$GLOBALpackageName greets the user, or the world."
+					
+					./build_major_distro_packages.sh
+					tempRetval="$?"
+					if [ "$tempRetval" == 0 ]
+					then
+					  archiveSuccess=1
+					fi
 				else
 					if [ ! -d doc-pak ]
 					then
@@ -215,7 +229,7 @@ do
 					
 					echo "$projectName version $projectVersion" > description-pak
 					echo >> description-pak
-					cat *ABOUT* *README* *INSTALL* *LICENSE* | head -n 9 >> description-pak
+					cat *ABOUT* *README* *INSTALL* *LICENSE* | grep -vE "^$" | head -n 9 >> description-pak
 					
 					licenseTitle=$(cat *LICENSE* | grep -vE "^$" | head -n 1)
 					checkInstallCommonOptions=$( echo --install=no \
