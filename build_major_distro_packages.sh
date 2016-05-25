@@ -10,7 +10,7 @@ do
   elif [ "$eachDistro" == "debian" ]
   then
     echo "$eachDistro" PACKAGING IS CURRENTLY EXPERIMENTAL
-    ./build_debian_package_from_scratch.sh
+    build_debian_package_from_scratch.sh
   else
     echo "$eachDistro" DISTRO IS NOT KNOWN BY THIS SCRIPT
   fi

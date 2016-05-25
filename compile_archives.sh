@@ -89,6 +89,8 @@ do
 		
 	projectFolderAlreadyExists=$(ls | grep -E "$projectName-.+" | grep -vE "[.]tar")
 	
+	PATH="$PATH":"$(pwd)"
+	
 	mkdir tempCompileDir
 	pushd tempCompileDir > /dev/null
 	
@@ -214,7 +216,7 @@ do
 					GLOBALpackageShortDescription="greet user"
 					GLOBALpackageLongDescription="$GLOBALpackageName greets the user, or the world."
 					
-					../../build_major_distro_packages.sh
+					build_major_distro_packages.sh
 					tempRetval="$?"
 					if [ "$tempRetval" == 0 ]
 					then

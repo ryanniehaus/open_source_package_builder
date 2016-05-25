@@ -8,9 +8,6 @@
 #GLOBALpackageShortDescription
 #GLOBALpackageLongDescription
 
-sourceDir=./"$GLOBALpackageName"-"$GLOBALsourceVersion"
-
-pushd "$sourceDir" > /dev/null
 rm -rf debian
 mkdir -p debian/source
 
@@ -49,6 +46,4 @@ echo "usr/bin" > debian/"$GLOBALpackageName".dirs
 echo "usr/share/man/man1" >> debian/"$GLOBALpackageName".dirs
 
 debuild -us -uc
-
-popd > /dev/null
 
