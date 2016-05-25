@@ -14,6 +14,9 @@ then
 fi
 mkdir -p debian/source
 
+export DEBFULLNAME="$GLOBALmaintainerName"
+export DEBEMAIL="$GLOBALmaintainerEmail"
+
 #builds changelog
 dch --create -v "$GLOBALsourceVersion"-"$GLOBALpackageRevision" --package "$GLOBALpackageName"
 ls -la
