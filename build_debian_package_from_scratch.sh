@@ -25,7 +25,7 @@ if [ ! "$tempRetval" == "0" ]
 then
   echo "dch FAILED"
   echo "dch DUMP START ---"
-  echo cat -n dch
+  cat -n dch
   echo "dch DUMP END ---"
 fi
 
