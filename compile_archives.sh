@@ -325,7 +325,7 @@ do
 #			echo git show-ref
 #			git show-ref
 			git add $tempFolder
-			git commit -m "adding source folder to failed compile branch"
+			git commit -m "[ci skip] adding source folder to failed compile branch"
 			git fetch && git pull && git push
 			git fetch && git pull && git push
 			git fetch && git pull && git push
@@ -341,7 +341,7 @@ cat archives_successfully_processed >> NEWarchives_successfully_processed
 sort -t"," -k1,1d -k2,2V -u NEWarchives_successfully_processed | grep -vE "^$" > archives_successfully_processed
 git add archives_successfully_processed
 git status
-git commit -m "updating lists"
+git commit -m "[ci skip] updating lists"
 git fetch && git pull && git push
 git fetch && git pull && git push
 git fetch && git pull && git push
