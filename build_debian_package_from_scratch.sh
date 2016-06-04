@@ -18,7 +18,17 @@ export DEBFULLNAME="$GLOBALmaintainerName"
 export DEBEMAIL="$GLOBALmaintainerEmail"
 
 #builds changelog
-dch --create -v "$GLOBALsourceVersion"-"$GLOBALpackageRevision" --package "$GLOBALpackageName"
+dch --create -v "$GLOBALsourceVersion"-"$GLOBALpackageRevision" --package "$GLOBALpackageName" --distribution "Unstable" --force-distribution
+tempRetval="$?"
+
+if [ ! "$tempRetval" == "0" ]
+then
+  echo "dch FAILED"
+  echo "dch DUMP START ---"
+  cat -n $(which dch)
+  echo "dch DUMP END ---"
+fi
+
 ls -la
 ls -la debian
 
