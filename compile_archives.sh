@@ -16,7 +16,7 @@ urlencode() {
 	
 	LC_COLLATE=$old_lc_collate
 }
-
+ 
 wget https://github.com/ryanniehaus/heroku-bash-buildpack/raw/master/bin/dataURLFromCloudinary.py
 chmod u+rx dataURLFromCloudinary.py
 
