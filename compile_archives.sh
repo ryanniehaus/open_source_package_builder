@@ -55,7 +55,7 @@ git remote show origin
 git remote set-branches --add origin master
 git remote show origin
 git fetch
-git pull
+git pull --rebase=true
 
 > archives_that_failed
 > NEWarchives_successfully_processed
@@ -321,28 +321,28 @@ do
 			detachedHeadSha1=$(git branch | grep -vE "^[*]" | sed 's|[[:space:]]\+||')
 			git status
 			git checkout "$detachedHeadSha1"
-			git fetch && git pull
+			git fetch && git pull --rebase=true
 #			echo git show-ref
 #			git show-ref
 			git add $tempFolder
 			git commit -m "adding source folder to failed compile branch"
-			git fetch && git pull && git push
-			git fetch && git pull && git push
-			git fetch && git pull && git push
+			git fetch && git pull --rebase=true && git push
+			git fetch && git pull --rebase=true && git push
+			git fetch && git pull --rebase=true && git push
 		fi
 	fi
 	fi
 done < archives_to_process
 
 git checkout master
-git pull
+git pull --rebase=true
 
 cat archives_successfully_processed >> NEWarchives_successfully_processed
 sort -t"," -k1,1d -k2,2V -u NEWarchives_successfully_processed | grep -vE "^$" > archives_successfully_processed
 git add archives_successfully_processed
 git status
 git commit -m "updating lists"
-git fetch && git pull && git push
-git fetch && git pull && git push
-git fetch && git pull && git push
+git fetch && git pull --rebase=true && git push
+git fetch && git pull --rebase=true && git push
+git fetch && git pull --rebase=true && git push
 
