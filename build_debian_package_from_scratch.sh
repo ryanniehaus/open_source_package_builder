@@ -8,6 +8,14 @@
 #GLOBALpackageShortDescription
 #GLOBALpackageLongDescription
 
+export EDITOR=$(pwd)/temp_editor.sh
+echo "#!/bin/bash" > temp_editor.sh
+echo "echo Running $@" >> temp_editor.sh
+echo "echo \" \" >> \"$2\"" >> temp_editor.sh
+echo "exit 0" >> temp_editor.sh
+echo "" >> temp_editor.sh
+chmod ug+rx ./temp_editor.sh
+
 if [ -d ]
 then
 	rm -rf debian
