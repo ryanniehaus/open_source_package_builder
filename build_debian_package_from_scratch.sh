@@ -18,7 +18,12 @@ export DEBFULLNAME="$GLOBALmaintainerName"
 export DEBEMAIL="$GLOBALmaintainerEmail"
 
 #builds changelog
-dch --create -v "$GLOBALsourceVersion"-"$GLOBALpackageRevision" --package "$GLOBALpackageName" --distribution "Unstable" --force-distribution "Autobuilt version of $GLOBALpackageName v$GLOBALsourceVersion from upstream"
+dch --create \
+	--version "$GLOBALsourceVersion"-"$GLOBALpackageRevision" \
+	--package "$GLOBALpackageName" \
+	--distribution "Unstable" \
+	--force-distribution \
+	"Autobuilt version of $GLOBALpackageName v$GLOBALsourceVersion from upstream"
 tempRetval="$?"
 
 if [ ! "$tempRetval" == "0" ]
