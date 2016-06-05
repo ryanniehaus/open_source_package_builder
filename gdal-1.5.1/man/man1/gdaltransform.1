@@ -1,0 +1,54 @@
+.TH "gdaltransform" 1 "14 Mar 2008" "GDAL" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+gdaltransform \- gdaltransform
+transforms coordinates
+.SH "SYNOPSIS"
+.PP
+.PP
+.nf
+
+gdaltransform [--help-general]
+	[i] [-s_srs srs_def] [-t_srs srs_def] [-order n] ] [-tps]
+	[-gcp pixel line easting northing [elevation]]*
+	[srcfile [dstfile]]
+.fi
+.PP
+.SH "DESCRIPTION"
+.PP
+The gdaltransform utility reprojects a list of coordinates into any supported projection,including GCP-based transformations.
+.PP
+.IP "\fB\fB-s_srs\fP \fIsrs def\fP:\fP" 1c
+source spatial reference set. The coordinate systems that can be passed are anything supported by the OGRSpatialReference.SetFromUserInput() call, which includes EPSG PCS and GCSes (ie. EPSG:4296), PROJ.4 declarations (as above), or the name of a .prf file containing well known text. 
+.IP "\fB\fB-t_srs\fP \fIsrs_def\fP:\fP" 1c
+target spatial reference set. The coordinate systems that can be passed are anything supported by the OGRSpatialReference.SetFromUserInput() call, which includes EPSG PCS and GCSes (ie. EPSG:4296), PROJ.4 declarations (as above), or the name of a .prf file containing well known text. 
+.IP "\fB\fB-order\fP \fIn\fP:\fP" 1c
+order of polynomial used for warping (1 to 3). The default is to select a polynomial order based on the number of GCPs. 
+.IP "\fB\fB-tps\fP\fP" 1c
+Enable use of thin plate spline transformer based on available GCPs. Use this \fIinstead\fP of the -order switch. 
+.IP "\fB\fB-i\fP\fP" 1c
+Inverse transformation: from destination to source. 
+.IP "\fB\fIsrcfile\fP:\fP" 1c
+File with source projection definition or GCP's. If not given, source projection is read from the command-line -s_srs or -gcp parameters  
+.IP "\fB\fIdstfile\fP:\fP" 1c
+File with destination projection definition.  
+.PP
+.PP
+Coordinates are read as pairs (or triples) of numbers per line from standard input, transformed, and written out to standard output in the same way. All transformations offered by gdalwarp are handled, including gcp-based ones.
+.PP
+Note that input and output must always be in decimal form. There is currently no support for DMS input or output.
+.SH "EXAMPLE"
+.PP
+.PP
+.nf
+
+gdaltransform -s_srs epsg:28992 -t_srs epsg:31370
+177502 311865
+244510.77404604 166154.532871342 -1046.79270555763
+
+.fi
+.PP
+.SH "AUTHORS"
+.PP
+Frank Warmerdam <warmerdam@pobox.com>, Jan Hartmann <j.l.h.hartmann@uva.nl> 

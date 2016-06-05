@@ -1,0 +1,11 @@
+#
+# csharp.opt - C# specific user definied options
+#
+# $Id: csharp.opt 11458 2007-05-10 20:45:39Z tamas $
+#
+
+#Uncomment the following line if you want to compile with MONO on windows
+#MONO = YES
+
+#Comment the following line out if you want to link against the gdal dll
+#CSHARP_STATIC_LINKAGE = YES
