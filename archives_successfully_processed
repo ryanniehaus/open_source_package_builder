@@ -37,6 +37,7 @@ gdal,2.1.1RC1,http://download.osgeo.org/gdal/2.1.1/gdal-2.1.1RC1.tar.gz
 gdal,2.1.1RC2,http://download.osgeo.org/gdal/2.1.1/gdal-2.1.1RC2.tar.gz
 gdal,2.1.2RC1,http://download.osgeo.org/gdal/2.1.2/gdal-2.1.2RC1.tar.gz
 gdal,2.1.2RC3,http://download.osgeo.org/gdal/2.1.2/gdal-2.1.2RC3.tar.gz
+gdal,2.1.2RC4,http://download.osgeo.org/gdal/2.1.2/gdal-2.1.2RC4.tar.gz
 libcsv,3.0.0,https://sourceforge.net/projects/libcsv/files/libcsv/libcsv-3.0.0/libcsv-3.0.0.tar.gz
 libcsv,3.0.1,https://sourceforge.net/projects/libcsv/files/libcsv/libcsv-3.0.1/libcsv-3.0.1.tar.gz
 libcsv,3.0.2,https://sourceforge.net/projects/libcsv/files/libcsv/libcsv-3.0.2/libcsv-3.0.2.tar.gz
